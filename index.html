@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>見積書 PDF 生成ツール｜無料・登録不要・ブラウザだけで作成</title>
+<meta name="description" content="フリーランス・個人事業主向けの見積書（御見積書）を無料で作成し、PDF として保存・印刷できるツールです。見積番号・有効期限・小計・消費税（10% / 8%）・備考まで入力するだけで、A4 の見積書がブラウザ内で完成します。登録不要、外部送信なし。">
+<meta name="keywords" content="見積書,見積書 テンプレート,見積書 無料,見積書 PDF,個人事業主,フリーランス,御見積書,見積書 作り方">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="./index.html">
+<meta property="og:type" content="website">
+<meta property="og:title" content="見積書 PDF 生成ツール｜無料・登録不要">
+<meta property="og:description" content="見積番号・有効期限・消費税まで対応した見積書を無料で作成し、PDF 保存できます。ブラウザ内で完結。">
+<meta property="og:locale" content="ja_JP">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231e3a8a'/%3E%3Cpath d='M9 8h10l5 5v11a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2V10a2 2 0 0 1 2-2z' fill='%23ffffff'/%3E%3Cpath d='M19 8v5h5' fill='%23c7d2fe'/%3E%3Cg stroke='%231e3a8a' stroke-width='1.6' stroke-linecap='round'%3E%3Cpath d='M12 13h4M11 17h10M11 20h10M11 23h6'/%3E%3C/g%3E%3C/svg%3E">
+<link rel="stylesheet" href="style.css">
+<!-- Cloudflare Web Analytics --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "6fc01bf3ac5e457ba1bd16b91e5b653e"}'></script><!-- End Cloudflare Web Analytics -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "見積書 PDF 生成ツール",
+      "applicationCategory": "BusinessApplication",
+      "operatingSystem": "Web",
+      "description": "フリーランス・個人事業主向けの見積書をブラウザ上で作成し、A4 の PDF として保存・印刷できる無料ツールです。",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "JPY" },
+      "featureList": [
+        "見積番号・発行日・見積有効期限の記載",
+        "明細行の追加・削除と自動計算",
+        "消費税率 10% / 8%（軽減税率）の切り替え",
+        "A4 縦の印刷・PDF 保存",
+        "入力内容はブラウザ内のみで処理"
+      ],
+      "inLanguage": "ja"
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "見積書に登録番号（インボイス番号）は必要ですか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "見積書はインボイス制度上の適格請求書ではないため、登録番号の記載は必須ではありません。本ツールも登録番号欄は設けていません。実際に請求を行う際は、別途「適格請求書」を発行してください。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "見積書の有効期限はどう設定すればよいですか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "本ツールでは発行日から 7日・14日・30日・60日・90日、または任意の日付を選べます。一般には発行日から30日程度とするケースが多いとされますが、取引先との取り決めに合わせてください。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "消費税の端数処理はどうなっていますか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "小計（税抜）に対して消費税を計算し、1円未満を切り捨てています。これは一般的な処理方法のひとつです。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "入力した内容はサーバーに送信されますか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "いいえ。入力内容はサーバーへ送信されず、お使いの端末のブラウザ内だけで処理されます。ページを閉じると内容は破棄されます。"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "作成した見積書はそのまま送れますか？",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "「印刷 / PDF保存」ボタンから A4 の PDF として保存し、メール添付やチャットで送付できます。金額や条件の最終確認はご自身で行ってください。"
+          }
+        }
+      ]
+    }
+  ]
+}
+</script>
+</head>
+<body>
+
+<header class="site-header no-print">
+  <div class="wrap header-inner">
+    <div class="brand">
+      <svg class="brand-mark" viewBox="0 0 32 32" aria-hidden="true">
+        <rect width="32" height="32" rx="7" fill="currentColor"/>
+        <path d="M9 8h10l5 5v11a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2V10a2 2 0 0 1 2-2z" fill="#fff"/>
+        <path d="M19 8v5h5" fill="#c7d2fe"/>
+        <g stroke="currentColor" stroke-width="1.6" stroke-linecap="round">
+          <path d="M12 13h4M11 17h10M11 20h10M11 23h6"/>
+        </g>
+      </svg>
+      <div class="brand-text">
+        <strong>見積書 作成ツール</strong>
+        <span>無料・登録不要・ブラウザ内で完結</span>
+      </div>
+    </div>
+
+    <div class="header-actions">
+      <button type="button" class="btn btn-primary" id="printBtn">
+        <svg viewBox="0 0 20 20" aria-hidden="true" class="ic">
+          <path d="M6 7V3h8v4M6 15H4.5A1.5 1.5 0 0 1 3 13.5v-4A1.5 1.5 0 0 1 4.5 8h11A1.5 1.5 0 0 1 17 9.5v4a1.5 1.5 0 0 1-1.5 1.5H14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          <rect x="6" y="12" width="8" height="6" rx="1" fill="none" stroke="currentColor" stroke-width="1.5"/>
+        </svg>
+        印刷 / PDF保存
+      </button>
+      <button type="button" class="btn btn-ghost" id="resetBtn">リセット</button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap layout">
+
+  <!-- ============ 入力フォーム ============ -->
+  <section class="pane form-pane no-print" aria-label="入力フォーム">
+    <div class="pane-head">
+      <h2>見積書の内容を入力</h2>
+      <p class="hint">入力すると右のプレビューにすぐ反映されます。最初からサンプルデータが入っています。</p>
+    </div>
+
+    <form id="quoteForm" autocomplete="off" novalidate>
+
+      <fieldset class="card">
+        <legend>発行元（自社）の情報</legend>
+
+        <div class="field">
+          <label for="issuerName">自社名・屋号・氏名<span class="req">必須</span></label>
+          <input type="text" id="issuerName" name="issuerName" placeholder="例：山田 太郎 / Yamada Design">
+        </div>
+
+        <div class="field">
+          <label for="issuerAddress">住所</label>
+          <textarea id="issuerAddress" name="issuerAddress" rows="2" placeholder="例：〒150-0001 東京都渋谷区神宮前1-2-3 サンプルビル5F"></textarea>
+        </div>
+
+        <div class="grid-2">
+          <div class="field">
+            <label for="issuerPhone">電話番号</label>
+            <input type="text" id="issuerPhone" name="issuerPhone" inputmode="tel" placeholder="例：090-1234-5678">
+          </div>
+          <div class="field">
+            <label for="issuerEmail">メールアドレス</label>
+            <input type="text" id="issuerEmail" name="issuerEmail" inputmode="email" spellcheck="false" placeholder="例：info@example.com">
+          </div>
+        </div>
+      </fieldset>
+
+      <fieldset class="card">
+        <legend>見積の情報</legend>
+
+        <div class="field">
+          <label for="clientName">宛名（発注者名）<span class="req">必須</span></label>
+          <input type="text" id="clientName" name="clientName" placeholder="例：株式会社サンプル">
+        </div>
+
+        <div class="field">
+          <label for="clientHonorific">宛名の敬称</label>
+          <select id="clientHonorific" name="clientHonorific">
+            <option value="御中" selected>御中</option>
+            <option value="様">様</option>
+            <option value="">（付けない）</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="subject">件名（任意）</label>
+          <input type="text" id="subject" name="subject" placeholder="例：Webサイトリニューアル制作の御見積">
+        </div>
+
+        <div class="grid-2">
+          <div class="field">
+            <label for="issueDate">発行日<span class="req">必須</span></label>
+            <input type="date" id="issueDate" name="issueDate">
+          </div>
+          <div class="field">
+            <label for="quoteNo">見積番号</label>
+            <input type="text" id="quoteNo" name="quoteNo" spellcheck="false" placeholder="例：EST-2026-001">
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="field">
+            <label for="validityPreset">見積有効期限</label>
+            <select id="validityPreset" name="validityPreset">
+              <option value="7">発行日から 7日</option>
+              <option value="14">発行日から 14日</option>
+              <option value="30" selected>発行日から 30日</option>
+              <option value="60">発行日から 60日</option>
+              <option value="90">発行日から 90日</option>
+              <option value="0">日付を指定する</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="validUntil">有効期限の日付</label>
+            <input type="date" id="validUntil" name="validUntil">
+          </div>
+        </div>
+        <p class="help">「発行日から◯日」を選ぶと日付が自動計算されます。日付を直接編集すると「日付を指定する」に切り替わります。</p>
+      </fieldset>
+
+      <fieldset class="card">
+        <legend>明細行</legend>
+
+        <div class="rows-head" aria-hidden="true">
+          <span class="c-name">品名・作業内容</span>
+          <span class="c-qty">数量</span>
+          <span class="c-price">単価</span>
+          <span class="c-del"></span>
+        </div>
+
+        <div id="rowsContainer" class="rows"></div>
+
+        <div class="rows-actions">
+          <button type="button" class="btn btn-outline btn-sm" id="addRowBtn">
+            <svg viewBox="0 0 16 16" aria-hidden="true" class="ic"><path d="M8 3v10M3 8h10" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+            明細行を追加
+          </button>
+          <p class="hint">単価は<strong>税抜金額</strong>で入力してください。</p>
+        </div>
+      </fieldset>
+
+      <fieldset class="card">
+        <legend>消費税</legend>
+
+        <div class="field">
+          <label for="taxRate">消費税率</label>
+          <select id="taxRate" name="taxRate">
+            <option value="10" selected>10%（標準税率）</option>
+            <option value="8">8%（軽減税率）</option>
+          </select>
+        </div>
+        <p class="help">見積全体に適用する税率です。軽減税率の対象となる取引では 8% を選択してください。</p>
+      </fieldset>
+
+      <fieldset class="card">
+        <legend>備考・見積条件</legend>
+
+        <div class="field">
+          <label for="notes">備考・特記事項</label>
+          <textarea id="notes" name="notes" rows="4" placeholder="例：納期：ご発注後 約6週間&#10;支払条件：納品後30日以内"></textarea>
+        </div>
+
+        <div class="field">
+          <label for="conditions">その他の条件（任意）</label>
+          <textarea id="conditions" name="conditions" rows="3" placeholder="例：本見積に含まれない作業（原稿執筆・追加修正など）は別途お見積いたします。"></textarea>
+        </div>
+      </fieldset>
+
+      <p class="privacy-note">
+        <svg viewBox="0 0 16 16" aria-hidden="true" class="ic"><path d="M8 1.5 3 3.5v4c0 3 2.1 5.6 5 6.5 2.9-.9 5-3.5 5-6.5v-4L8 1.5z" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>
+        入力した内容はサーバーに送信されません。すべてお使いのブラウザ内だけで処理されます。
+      </p>
+    </form>
+  </section>
+
+  <!-- ============ プレビュー / 印刷対象 ============ -->
+  <section class="pane preview-pane" aria-label="プレビュー">
+    <div class="preview-bar no-print">
+      <span class="dot"></span> プレビュー（A4）
+    </div>
+
+    <div class="paper-wrap">
+      <article class="paper" id="paper">
+        <h1 class="doc-title">御見積書</h1>
+
+        <header class="doc-head">
+          <div class="doc-head-left">
+            <p class="doc-to">
+              <span class="client-name" id="pvClientName">株式会社サンプル</span><span class="honorific" id="pvHonorific">御中</span>
+            </p>
+            <p class="doc-subject" id="pvSubjectLine" hidden><span id="pvSubject"></span></p>
+            <p class="doc-meta-line">
+              <span class="meta-label">発行日</span>
+              <span id="pvDate"></span>
+            </p>
+            <p class="doc-meta-line" id="pvQuoteNoLine" hidden>
+              <span class="meta-label">見積番号</span>
+              <span id="pvQuoteNo"></span>
+            </p>
+            <p class="doc-meta-line" id="pvValidLine" hidden>
+              <span class="meta-label">有効期限</span>
+              <span id="pvValid"></span>
+            </p>
+          </div>
+
+          <div class="doc-head-right">
+            <p class="issuer-name" id="pvIssuerName">山田 太郎</p>
+            <p class="issuer-meta" id="pvIssuerAddress" hidden></p>
+            <p class="issuer-meta" id="pvIssuerPhone" hidden></p>
+            <p class="issuer-meta" id="pvIssuerEmail" hidden></p>
+          </div>
+        </header>
+
+        <div class="total-banner">
+          <span class="total-label">お見積金額（税込）</span>
+          <span class="total-value" id="pvTotal">¥0</span>
+        </div>
+
+        <table class="items-table">
+          <thead>
+            <tr>
+              <th class="th-name">品名・作業内容</th>
+              <th class="th-qty">数量</th>
+              <th class="th-price">単価</th>
+              <th class="th-amount">金額</th>
+            </tr>
+          </thead>
+          <tbody id="pvItems"></tbody>
+        </table>
+
+        <div class="summary">
+          <div class="summary-note">
+            <p class="summary-lead">上記のとおり御見積申し上げます。<br>ご検討のほど、よろしくお願い申し上げます。</p>
+          </div>
+
+          <div class="summary-totals">
+            <div class="sum-row">
+              <span>小計（税抜）</span>
+              <span class="num" id="pvSubtotal">¥0</span>
+            </div>
+            <div class="sum-row">
+              <span id="pvTaxLabel">消費税（10%）</span>
+              <span class="num" id="pvTaxTotal">¥0</span>
+            </div>
+            <div class="sum-row sum-grand">
+              <span>合計</span>
+              <span class="num" id="pvGrand">¥0</span>
+            </div>
+          </div>
+        </div>
+
+        <footer class="doc-foot">
+          <div class="foot-block" id="pvNotesBlock" hidden>
+            <h2 class="foot-title">備考・特記事項</h2>
+            <p class="foot-body" id="pvNotes"></p>
+          </div>
+          <div class="foot-block" id="pvConditionsBlock" hidden>
+            <h2 class="foot-title">その他の条件</h2>
+            <p class="foot-body" id="pvConditions"></p>
+          </div>
+        </footer>
+
+        <p class="paper-footnote" id="pvPaperNote" hidden></p>
+      </article>
+    </div>
+  </section>
+
+  <!-- ============ SEO 説明文 ============ -->
+  <section class="seo no-print" aria-label="ツールについて">
+    <h2>見積書 PDF 生成ツールとは</h2>
+    <p>
+      フリーランス・個人事業主が取引先へ提出する<strong>見積書（御見積書）</strong>を、ブラウザ上でかんたんに作成できる無料ツールです。
+      自社名・屋号・住所・電話・メールアドレスといった発行元情報、宛名、発行日、見積番号、<strong>見積有効期限</strong>、明細行、消費税、備考を入力するだけで、
+      A4 サイズの見積書がそのまま完成します。作成した見積書は「印刷 / PDF保存」ボタンから PDF として保存でき、メール添付やチャットでの送付に使えます。
+    </p>
+    <p>
+      入力内容はサーバーへ送信されず、すべてお使いの端末のブラウザ内だけで処理されます。会計ソフトや見積管理システムを契約するほどではない、
+      という場面に向いています。登録もインストールも不要です。
+    </p>
+
+    <h3>見積書に載せておきたい項目</h3>
+    <ol class="seo-list">
+      <li><strong>表題「御見積書」</strong> — 請求書と取り違えられないよう、書類の種類を明記します。</li>
+      <li><strong>宛名（発注者名）と敬称</strong> — 法人なら「御中」、個人なら「様」が一般的です。</li>
+      <li><strong>発行日と見積番号</strong> — 見積番号を振っておくと、後の請求書や注文書との突き合わせが楽になります。</li>
+      <li><strong>見積有効期限</strong> — 材料費や工数の変動を踏まえ、いつまでの金額か明示します。発行日から30日程度とすることが多いとされます。</li>
+      <li><strong>明細（品名・数量・単価・金額）</strong> — 何にいくらかかるのかを分解して示します。</li>
+      <li><strong>小計・消費税・合計</strong> — 税抜金額と税込金額を分けて記載します。</li>
+      <li><strong>発行元の情報</strong> — 屋号・氏名、住所、電話番号、メールアドレスなどの連絡先を記載します。</li>
+      <li><strong>備考・見積条件</strong> — 納期や支払条件、見積に含まれない作業の範囲などを明記します。</li>
+    </ol>
+
+    <h3>見積書と請求書の違い</h3>
+    <p>
+      見積書は「この作業をこの金額でお受けします」という<strong>申込みの意思表示</strong>であり、請求書は「実際に発生した代金をお支払いください」という
+      <strong>支払いの請求</strong>です。見積書はインボイス制度上の適格請求書ではないため、登録番号の記載は必須ではありません。
+      実際に代金を請求する段階では、別途 請求書（適格請求書）を発行する必要があります。本ツールの見積書には、その旨の注記があらかじめ入っています。
+    </p>
+
+    <h3>使い方</h3>
+    <ol class="seo-list">
+      <li>左側のフォームに発行元（自社）の情報を入力します。</li>
+      <li>宛名・件名・発行日・見積番号・有効期限を入力します。有効期限はプリセットから選ぶと自動計算されます。</li>
+      <li>明細行を入力します。行の追加・削除は自由にできます。「＋ 明細行を追加」ボタンで行を増やせます。</li>
+      <li>消費税率（10% / 8%）と備考を入力すると、右のプレビューと合計金額が自動で更新されます。</li>
+      <li>「印刷 / PDF保存」ボタンを押し、印刷先で「PDF に保存」を選ぶと PDF ファイルとして保存できます。</li>
+    </ol>
+
+    <h3>よくある質問</h3>
+    <dl class="faq">
+      <dt>見積書に登録番号（インボイス番号）は必要ですか？</dt>
+      <dd>見積書はインボイス制度上の適格請求書ではないため、登録番号の記載は必須ではありません。本ツールも登録番号欄は設けていません。実際に請求を行う際は、別途「適格請求書」を発行してください。</dd>
+
+      <dt>見積書の有効期限はどう設定すればよいですか？</dt>
+      <dd>本ツールでは発行日から 7日・14日・30日・60日・90日、または任意の日付を選べます。一般には発行日から30日程度とするケースが多いとされますが、取引先との取り決めに合わせてください。</dd>
+
+      <dt>消費税の端数処理はどうなっていますか？</dt>
+      <dd>小計（税抜）に対して消費税を計算し、1円未満を切り捨てています。これは一般的な処理方法のひとつです。</dd>
+
+      <dt>入力したデータはどこかに保存されますか？</dt>
+      <dd>いいえ。入力内容はサーバーへ送信されず、お使いの端末のブラウザ内だけで処理されます。ページを閉じると内容は破棄されます。</dd>
+
+      <dt>作成した見積書はそのまま送れますか？</dt>
+      <dd>「印刷 / PDF保存」から PDF として保存できます。金額や条件の最終確認はご自身で行ってください。</dd>
+    </dl>
+
+    <p class="disclaimer">
+      ※ 本ツールは見積書作成の補助を目的としたものであり、法令や商慣習への適合を保証するものではありません。記載内容の最終確認はご自身で、または税理士などの専門家にご相談ください。
+    </p>
+  </section>
+</main>
+
+<footer class="site-footer no-print">
+  <div class="wrap">
+    <p>見積書 作成ツール — ブラウザだけで動く無料の見積書ジェネレーター</p>
+    <p><a href="https://docs.google.com/forms/d/e/1FAIpQLSfHGUfgAlViT3TFiVtJi_EpJ4ioUpd9oGyaJ7rehEV-gBH_PA/viewform?usp=pp_url&amp;entry.1745177199=見積書" target="_blank" rel="noopener">ご意見・フィードバック</a></p>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
