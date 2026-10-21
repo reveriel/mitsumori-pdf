@@ -282,6 +282,77 @@ input:focus, select:focus, textarea:focus {
   line-height: 1.6;
 }
 
+/* ---------------- 書式（字体・太字・日付） ---------------- */
+
+.field-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--c-text-muted);
+  margin-bottom: 5px;
+}
+
+.seg {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+/* .field label の display/margin を打ち消すため .seg でスコープする */
+.seg .seg-opt {
+  position: relative;
+  display: flex;
+  flex: 1 1 0;
+  min-width: 0;
+  margin: 0;
+  cursor: pointer;
+}
+
+.seg .seg-opt input {
+  position: absolute;
+  width: 1px; height: 1px;
+  margin: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.seg .seg-opt > span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 8px 10px;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.2;
+  color: var(--c-text-muted);
+  background: var(--c-surface-2);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-sm);
+  transition: background-color .15s, border-color .15s, color .15s;
+}
+
+.seg .seg-opt:hover > span {
+  border-color: var(--c-border-strong);
+  color: var(--c-text);
+}
+
+.seg .seg-opt input:checked + span {
+  background: var(--c-accent);
+  border-color: var(--c-accent);
+  color: #fff;
+  font-weight: 700;
+}
+
+@media (prefers-color-scheme: dark) {
+  .seg .seg-opt input:checked + span { color: #0d1220; }
+}
+
+.seg .seg-opt input:focus-visible + span {
+  outline: 2px solid var(--c-focus);
+  outline-offset: 2px;
+}
+
 /* ---------------- 明細行 ---------------- */
 
 .rows-head,
@@ -368,6 +439,20 @@ input:focus, select:focus, textarea:focus {
   font-size: 12.5px;
   line-height: 1.65;
 }
+
+/* 書式：字体（未指定時は body のフォントを継承＝現状の見た目を維持） */
+.paper.font-mincho {
+  font-family: "Hiragino Mincho ProN", "Yu Mincho", "Noto Serif JP", serif;
+}
+.paper.font-gothic {
+  font-family: "Hiragino Kaku Gothic ProN", "Yu Gothic", "Noto Sans JP", sans-serif;
+}
+
+/* 書式：太字（紙面内の全テキストを 700 に。印刷時もそのまま適用される） */
+.paper.text-bold,
+.paper.text-bold * { font-weight: 700; }
+/* 疑似クラス付きで詳細度が高い既存ルール（発行日・有効期限の値）も太字にする */
+.paper.text-bold .doc-meta-line > span:last-child { font-weight: 700; }
 
 /* 書類タイトル */
 .doc-title {

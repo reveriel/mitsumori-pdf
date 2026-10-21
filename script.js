@@ -40,12 +40,38 @@
     return '¥' + comma(n);
   }
 
-  // "2026-10-11" → "2026年10月11日"
-  function formatDate(iso) {
+  // 元号の開始日（新しい順）。元年は「1年」ではなく「元年」と表記する。
+  var ERAS = [
+    { name: '令和', year: 2019, month: 5,  day: 1 },
+    { name: '平成', year: 1989, month: 1,  day: 8 },
+    { name: '昭和', year: 1926, month: 12, day: 25 },
+    { name: '大正', year: 1912, month: 7,  day: 30 },
+    { name: '明治', year: 1868, month: 1,  day: 25 }
+  ];
+
+  // 西暦の年月日 → 和暦表記（例：令和8年10月21日）。明治より前は西暦のまま。
+  function formatWareki(y, m, d) {
+    var date = new Date(y, m - 1, d);
+    for (var i = 0; i < ERAS.length; i++) {
+      var era = ERAS[i];
+      if (date >= new Date(era.year, era.month - 1, era.day)) {
+        var n = y - era.year + 1;
+        return era.name + (n === 1 ? '元' : n) + '年' + m + '月' + d + '日';
+      }
+    }
+    return y + '年' + m + '月' + d + '日';
+  }
+
+  // "2026-10-11" → "2026年10月11日" / "令和8年10月11日"
+  function formatDate(iso, eraMode) {
     if (!iso) return '';
     var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(iso);
     if (!m) return iso;
-    return Number(m[1]) + '年' + Number(m[2]) + '月' + Number(m[3]) + '日';
+    var y = Number(m[1]);
+    var mo = Number(m[2]);
+    var d = Number(m[3]);
+    if (eraMode === 'wareki') return formatWareki(y, mo, d);
+    return y + '年' + mo + '月' + d + '日';
   }
 
   // 数量は小数第2位まで、整数ならそのまま
@@ -81,6 +107,10 @@
 
   var rowSeq = 0;
   var rows = []; // { id, name, qty, price }
+
+  // 字体は「ユーザーが選び直すまでは現状のフォントを継承」させる。
+  // これにより初期表示の見た目が変わらない。
+  var fontExplicit = false;
 
   var DEFAULTS = {
     issuerName: '山田 太郎 / Yamada Design',
@@ -217,6 +247,43 @@
     el.textContent = text;
   }
 
+  /* ---------------------------------------------------------
+     書式（字体・太字・日付）
+     --------------------------------------------------------- */
+
+  function radioValue(name, fallback) {
+    var el = document.querySelector('input[name="' + name + '"]:checked');
+    return el ? el.value : fallback;
+  }
+
+  function setRadio(name, value) {
+    var el = document.querySelector('input[name="' + name + '"][value="' + value + '"]');
+    if (el) el.checked = true;
+  }
+
+  // 現在の紙面フォントが明朝系なら mincho、それ以外は gothic を既定にする
+  function detectInitialFontMode() {
+    var family = '';
+    try { family = window.getComputedStyle($('paper')).fontFamily || ''; } catch (e) {}
+    family = family.toLowerCase();
+    var isMincho = family.indexOf('mincho') !== -1 ||
+      /(^|,)\s*"?serif"?\s*(,|$)/.test(family);
+    return isMincho ? 'mincho' : 'gothic';
+  }
+
+  // 紙面の class に書式を反映（プレビューにも印刷にも効く）
+  function applyDocStyles() {
+    var paper = $('paper');
+    if (!paper) return;
+
+    var fontMode = radioValue('docFont', 'gothic');
+    // gothic は初期状態では class を付けず body のフォントを継承する（見た目を変えない）
+    paper.classList.toggle('font-mincho', fontMode === 'mincho');
+    paper.classList.toggle('font-gothic', fontMode === 'gothic' && fontExplicit);
+
+    paper.classList.toggle('text-bold', radioValue('docWeight', 'normal') === 'bold');
+  }
+
   function renderPreview() {
     /* --- 発行元 --- */
     var issuerName = $('issuerName').value.trim();
@@ -241,9 +308,10 @@
     $('pvSubject').textContent = subject;
 
     /* --- 発行日・見積番号・有効期限 --- */
+    var eraMode = radioValue('docEra', 'seireki');
     var dateISO = $('issueDate').value;
     $('pvDate').innerHTML = dateISO
-      ? escapeHtml(formatDate(dateISO))
+      ? escapeHtml(formatDate(dateISO, eraMode))
       : placeholder('未入力');
 
     var quoteNo = $('quoteNo').value.trim();
@@ -254,7 +322,7 @@
     var preset = $('validityPreset').value;
     $('pvValidLine').hidden = !validISO;
     if (validISO) {
-      var validText = formatDate(validISO);
+      var validText = formatDate(validISO, eraMode);
       if (preset !== '0') validText += '（発行日から' + preset + '日）';
       $('pvValid').textContent = validText;
     } else {
@@ -413,6 +481,13 @@
     $('issueDate').value = todayISO();
     $('validityPreset').value = DEFAULTS.validityPreset;
     syncValidityFromIssueDate();
+
+    // 書式（字体・太字・日付）を初期状態に戻す
+    setRadio('docFont', 'gothic');
+    setRadio('docWeight', 'normal');
+    setRadio('docEra', 'seireki');
+    fontExplicit = false;
+    applyDocStyles();
   }
 
   function resetForm() {
@@ -428,19 +503,36 @@
   function init() {
     applyFieldDefaults();
 
+    // 既定の字体は現在の紙面フォントに合わせる（明朝系なら明朝、それ以外はゴシック）。
+    // ゴシック既定では class を付与しないため、初期表示の見た目は従来どおり。
+    setRadio('docFont', detectInitialFontMode());
+    applyDocStyles();
+
     rowSeq = 0;
     rows = [];
     DEFAULT_ROWS.forEach(function (r) { addRowToDOM(r); });
+
+    function isDocFormatControl(el) {
+      return el.name === 'docFont' || el.name === 'docWeight' || el.name === 'docEra';
+    }
 
     $('quoteForm').addEventListener('input', function (event) {
       if (event.target.closest('.row')) return;
       if (event.target.id === 'validUntil') handleValidUntilInput();
       if (event.target.id === 'issueDate') syncValidityFromIssueDate();
+      if (isDocFormatControl(event.target)) {
+        if (event.target.name === 'docFont') fontExplicit = true;
+        applyDocStyles();
+      }
       renderPreview();
     });
     $('quoteForm').addEventListener('change', function (event) {
       if (event.target.closest('.row')) return;
       if (event.target.id === 'validityPreset') handleValidityPresetChange();
+      if (isDocFormatControl(event.target)) {
+        if (event.target.name === 'docFont') fontExplicit = true;
+        applyDocStyles();
+      }
       renderPreview();
     });
 
